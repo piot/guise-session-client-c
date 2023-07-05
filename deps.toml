@@ -1,0 +1,20 @@
+depsversion = "0.0.0"
+
+name = "piot/guise-session-client-c"
+version = "0.0.0"
+
+[[dependencies]]
+name = 'piot/guise-serialize-c'
+version = "*"
+
+[[dependencies]]
+name = 'piot/datagram-transport-c'
+version = "*"
+
+[[development]]
+name = 'piot/udp-client-c'
+version = "*"
+
+[[development]]
+name = 'piot/guise-client-c'
+version = "*"
