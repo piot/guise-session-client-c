@@ -22,3 +22,4 @@ src/cli/cmake_install.cmake
 src/cli/secret.txt
 src/cli/users.txt
 src/deps/piot
+src/lib/libguise-session-client.a

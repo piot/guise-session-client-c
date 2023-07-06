@@ -85,7 +85,7 @@ static int guiseSclUserSessionsFind(const GuiseSclUserSessions* self, GuiseSeria
                           foundSession->userId)
     }
     if (!guiseSclAddressEqual(addr, &foundSession->address)) {
-        char addrTemp[64];
+        CLOG_EXECUTE(char addrTemp[64];)
         CLOG_C_SOFT_ERROR(&self->log, "wrong address %s vs %s", guiseSclAddressToString(addr, addrTemp, 64),
                           guiseSclAddressToString(&foundSession->address, addrTemp, 64))
         *outSession = 0;
