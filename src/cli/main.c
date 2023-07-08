@@ -2,9 +2,6 @@
  *  Copyright (c) Peter Bjorklund. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-#include "guise-sessions-client/address.h"
-#include "guise-sessions-client/user_session.h"
-#include <_types/_uint8_t.h>
 #include <clog/console.h>
 #include <flood/in_stream.h>
 #include <flood/out_stream.h>
@@ -13,12 +10,14 @@
 #include <guise-client/network_realizer.h>
 #include <guise-serialize/commands.h>
 #include <guise-serialize/parse_text.h>
+#include <guise-sessions-client/address.h>
 #include <guise-sessions-client/client.h>
+#include <guise-sessions-client/user_session.h>
 #include <imprint/default_setup.h>
 #include <inttypes.h>
 #include <stdio.h>
+#include <time.h>
 #include <udp-client/udp_client.h>
-#include <unistd.h>
 
 clog_config g_clog;
 char g_clog_temp_str[CLOG_TEMP_STR_SIZE];
@@ -157,12 +156,15 @@ int main(int argc, char* argv[])
     uint8_t dataBuf[DATAGRAM_TRANSPORT_MAX_SIZE];
 
     while (true) {
-        usleep(16 * 1000);
+        struct timespec ts;
+
+        ts.tv_sec = 0;
+        ts.tv_nsec = 16 * 1000000;
+        nanosleep(&ts, &ts);
 
         MonotonicTimeMs now = monotonicTimeMsNow();
 
         guiseClientRealizeUpdateOut(&clientRealize, now);
-
 
         if (reportedState != clientRealize.client.state) {
             reportedState = clientRealize.client.state;
