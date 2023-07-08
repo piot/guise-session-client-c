@@ -23,3 +23,5 @@ src/cli/secret.txt
 src/cli/users.txt
 src/deps/piot
 src/lib/libguise-session-client.a
+src/cli/guise_sessions_client_cli
+src/cli/guise_session_client_cli

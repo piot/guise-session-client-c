@@ -48,10 +48,9 @@ static int readFirstUserInUsersTxt(Secret* secret)
     FILE* fp = fopen("users.txt", "r");
     if (fp == 0) {
         CLOG_ERROR("could not find users.txt")
-        return -4;
+        // return -4;
     }
 
-    size_t usersRead = 0;
     char line[1024];
     char* ptr = fgets(line, 1024, fp);
     if (ptr == 0) {
@@ -199,5 +198,5 @@ int main(int argc, char* argv[])
         }
     }
 
-    imprintDefaultSetupDestroy(&memory);
+    //    imprintDefaultSetupDestroy(&memory);
 }
