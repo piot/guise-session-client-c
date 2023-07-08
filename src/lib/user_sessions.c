@@ -52,6 +52,8 @@ int guiseSclUserSessionsConfirm(GuiseSclUserSessions* self, GuiseSerializeUserSe
 
     size_t index = userSessionId & 0xffff;
     if (index >= self->capacity) {
+        CLOG_C_SOFT_ERROR(&self->log, "index from session id is outside of capacity %zu out of %zu", index,
+                          self->capacity)
         return -4;
     }
 

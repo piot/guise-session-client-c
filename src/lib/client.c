@@ -18,6 +18,7 @@ int guiseSclClientInit(GuiseSclClient* self, DatagramTransport transport, GuiseS
     guiseSclUserSessionsInit(&self->sessions, log);
     self->transport = transport;
     self->toUseForQueries = toUseForQueries;
+    CLOG_ASSERT(toUseForQueries != 0, "user session id zero is reserved")
     self->log = log;
 
     return 0;
@@ -78,13 +79,15 @@ int guiseSclClientLookup(GuiseSclClient* self, const GuiseSclAddress* address, G
 {
     size_t index = sessionId & 0xffff;
     if (index >= self->sessions.capacity) {
+        CLOG_C_SOFT_ERROR(&self->log, "index from session id is outside of capacity %zu out of %zu", index,
+                          self->sessions.capacity)
         return -4;
     }
 
     GuiseSclUserSession* userSession = &self->sessions.sessions[index];
     if (userSession->isConfirmed) {
         *outSession = userSession;
-        return 1;
+        return 0;
     }
 
     userSession->userSessionId = sessionId;
@@ -92,8 +95,9 @@ int guiseSclClientLookup(GuiseSclClient* self, const GuiseSclAddress* address, G
     userSession->address = *address;
 
     sendRequestToServer(self, sessionId, address);
+    *outSession = 0;
 
-    return 0;
+    return -1;
 }
 
 static int onReceiveConfirmResponse(GuiseSclClient* self, const uint8_t* data, size_t octetCount)
