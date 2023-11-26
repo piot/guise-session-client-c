@@ -82,9 +82,15 @@ static int guiseSclUserSessionsFind(const GuiseSclUserSessions* self, GuiseSeria
     }
 
     GuiseSclUserSession* foundSession = &self->sessions[index];
+    if (foundSession->userId == 0) {
+        CLOG_C_NOTICE(&self->log, "session id is not valid or destroyed %" PRIx64, uniqueId)
+        return -1;
+    }
+
     if (foundSession->userId != uniqueId) {
         CLOG_C_SOFT_ERROR(&self->log, "wrong user session id, got %" PRIX64 " but wanted %" PRIX64, uniqueId,
                           foundSession->userId)
+
     }
     if (!guiseSclAddressEqual(addr, &foundSession->address)) {
         CLOG_EXECUTE(char addrTemp[64];)

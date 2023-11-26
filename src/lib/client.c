@@ -91,6 +91,7 @@ int guiseSclClientLookup(GuiseSclClient* self, const GuiseSclAddress* address, G
     }
 
     userSession->userSessionId = sessionId;
+    userSession->userId = 0;
     userSession->isConfirmed = false;
     userSession->address = *address;
 
